@@ -1,33 +1,15 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
-
-const reducer = (state = 0, action) => {
-  switch (action.type) {
-    case 'inc': 
-      return state + 1;
-    case 'dec':
-      return state - 1;
-    case 'rfr':
-      return state - state;
-    default:
-      return state
-    
-  }
-}
+import {Provider} from 'react-redux';
+import reducer from './reducer';
+import App from './components/app';
+import './index.css'
 
 const store = createStore(reducer);
 
-document.querySelector('.button-increment').addEventListener('click', () => {
-  store.dispatch({type: 'inc'})
-});
-document.querySelector('.button-decrement').addEventListener('click', () => {
-  store.dispatch({type: 'dec'})
-});
-document.querySelector('.button-refresh').addEventListener('click', () => {
-  store.dispatch({type: 'rfr'})
-});
-
-const update = () => {
-  document.querySelector('.counter').textContent = store.getState()
-}
-
-store.subscribe(update);
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+  , document.getElementById('root'));
