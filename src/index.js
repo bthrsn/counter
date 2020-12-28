@@ -1,17 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {createStore} from 'redux';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const reducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'inc': 
+      return state + 1;
+    case 'dec':
+      return state - 1;
+    case 'rfr':
+      return state - state;
+    default:
+      return state
+    
+  }
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const store = createStore(reducer);
+
+document.querySelector('.button-increment').addEventListener('click', () => {
+  store.dispatch({type: 'inc'})
+});
+document.querySelector('.button-decrement').addEventListener('click', () => {
+  store.dispatch({type: 'dec'})
+});
+document.querySelector('.button-refresh').addEventListener('click', () => {
+  store.dispatch({type: 'rfr'})
+});
+
+const update = () => {
+  document.querySelector('.counter').textContent = store.getState()
+}
+
+store.subscribe(update);
